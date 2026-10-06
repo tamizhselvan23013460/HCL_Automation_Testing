@@ -93,9 +93,9 @@ email = driver.find_element(
 )
 email.send_keys("sridhartamizh02@gmail.com")
 time.sleep(20)
-
-
-
-
-
 ```
+
+### Output :
+
+ <img width="1917" height="1072" alt="image" src="https://github.com/user-attachments/assets/6e9c57fe-7181-49ac-831c-96b789db57e7" />
+
