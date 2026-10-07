@@ -164,7 +164,19 @@ driver.quit()
 
 # 07-10-2026 TASK-1
 
-### 1 . How can Selenium WebDriver be used to automate an online shopping website by handling alerts, mouse actions, drag-and-drop, explicit waits, and checkout operations?
+
+Test Case	Shopping Scenario	Selenium Concept	Expected Result
+1. TC01	Open the online shopping website	driver.get()	Shopping website opens successfully
+2. TC02	Customer clicks Delete/Remove Product and confirmation popup appears	Alert – accept()	Product deletion is confirmed
+3. TC03	Customer clicks Delete/Remove Product but chooses Cancel	Alert – dismiss()	Product remains in the cart
+4. TC04	Customer enters a name/coupon/customer information in a prompt popup	Prompt – send_keys()	Entered information is submitted successfully
+5. TC05	Customer moves the mouse over the Products/Category menu	Mouse Hover	Product categories/submenu are displayed
+6. TC06	Customer double-clicks a product	Double Click	Product details page opens
+7. TC07	Customer drags a product/item into a shopping cart area	Drag & Drop	Product is moved to the cart
+8. TC08	Customer searches for a product and waits for the product results to load	Explicit Wait	Product is displayed successfully
+9. TC09	Customer completes checkout and waits until the Place Order button becomes clickable	Clickable Wait	Order is submitted successfully
+10. TC10	Customer completes the purchase and waits for the order confirmation popup	Alert Wait	Confirmation alert is handled successfully
+
 
 ```py
 
