@@ -158,3 +158,180 @@ driver.quit()
 
 <img width="1917" height="1078" alt="image" src="https://github.com/user-attachments/assets/07dd4fee-ab8f-4a25-9207-bf483f0b5c2c" />
 
+
+
+
+
+# 07-10-2026 TASK-1
+
+### 1 . How can Selenium WebDriver be used to automate an online shopping website by handling alerts, mouse actions, drag-and-drop, explicit waits, and checkout operations?
+
+```py
+
+
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+
+driver = webdriver.Edge()
+driver.maximize_window()
+wait = WebDriverWait(driver, 10)
+driver.get("https://www.saucedemo.com/")
+
+print("TC01 - Shopping website opened successfully")
+wait.until(EC.visibility_of_element_located((By.ID, "user-name"))).send_keys("standard_user")
+time.sleep(2)
+driver.find_element(By.ID, "password").send_keys("secret_sauce")
+driver.find_element(By.ID, "login-button").click()
+time.sleep(2)
+wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "inventory_list")))
+print("TC01 - Login successful")
+time.sleep(2)
+
+driver.get("https://www.selenium.dev/selenium/web/alerts.html")
+driver.find_element(By.ID, "alert").click()
+alert = wait.until(EC.alert_is_present())
+time.sleep(2)
+print("\nTC02 - Alert:")
+print(alert.text)
+time.sleep(2)
+alert.accept()
+print("TC02 - Product deletion confirmed")
+
+driver.get("https://www.selenium.dev/selenium/web/alerts.html")
+time.sleep(2)
+driver.find_element(By.ID, "confirm").click()
+alert = wait.until(EC.alert_is_present())
+time.sleep(2)
+print("\nTC03 - Confirmation Alert:")
+print(alert.text)
+alert.dismiss()
+time.sleep(2)
+print("TC03 - Product remains in the cart")
+
+driver.get("https://www.selenium.dev/selenium/web/alerts.html")
+time.sleep(2)
+driver.find_element(By.ID, "prompt").click()
+alert = wait.until( EC.alert_is_present())
+time.sleep(2)
+print("\nTC04 - Prompt Alert:")
+print(alert.text)
+alert.send_keys("TAMIZH")
+alert.accept()
+print("TC04 - Customer information submitted successfully")
+
+driver.get("https://www.selenium.dev/selenium/web/mouse_interaction.html")
+time.sleep(2)
+hover_element = wait.until(EC.visibility_of_element_located((By.ID, "hover")))
+ActionChains(driver).move_to_element(hover_element).perform()
+time.sleep(2)
+move_status = wait.until(EC.visibility_of_element_located((By.ID, "move-status")))
+print("\nTC05 - Mouse Hover performed successfully")
+print("Result:", move_status.text)
+
+driver.get("https://www.selenium.dev/selenium/web/mouse_interaction.html")
+time.sleep(2)
+double_click_element = wait.until(EC.visibility_of_element_located((By.ID, "clickable")))
+ActionChains(driver).double_click(double_click_element).perform()
+click_status = wait.until(EC.visibility_of_element_located((By.ID, "click-status")))
+print("\nTC06 - Double Click performed successfully")
+print("Result:", click_status.text)
+
+driver.get("https://www.selenium.dev/selenium/web/mouse_interaction.html")
+time.sleep(2)
+source = wait.until(EC.visibility_of_element_located((By.ID, "draggable")))
+time.sleep(2)
+target = wait.until(EC.visibility_of_element_located((By.ID, "droppable")))
+time.sleep(2)
+ActionChains(driver).drag_and_drop(source, target).perform()
+drop_status = wait.until(EC.visibility_of_element_located((By.ID, "drop-status")))
+time.sleep(2)
+print("\nTC07 - Drag and Drop performed successfully")
+print("Result:", drop_status.text)
+
+driver.get("https://www.automationexercise.com/products")
+time.sleep(2)
+search_box = wait.until(EC.visibility_of_element_located((By.ID, "search_product")))
+time.sleep(2)
+search_box.clear()
+search_box.send_keys("Top")
+search_button = wait.until(EC.element_to_be_clickable((By.ID, "submit_search")))
+time.sleep(2)
+search_button.click()
+searched_products = wait.until(EC.visibility_of_element_located((By.XPATH,
+            "//h2[contains(translate(normalize-space(.), 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 'SEARCHED PRODUCTS')]")))
+time.sleep(2)
+products = wait.until(EC.presence_of_all_elements_located((By.XPATH,"//div[contains(@class,'productinfo')]")))
+time.sleep(2)
+print("\nTC08 - Product search completed successfully")
+print("Result:", searched_products.text)
+print("Number of products found:", len(products))
+
+driver.get("https://www.saucedemo.com/")
+time.sleep(2)
+wait.until(EC.visibility_of_element_located((By.ID, "user-name"))).send_keys("standard_user")
+time.sleep(2)
+driver.find_element(By.ID, "password").send_keys("secret_sauce")
+driver.find_element(By.ID, "login-button").click()
+wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "inventory_list")))
+time.sleep(2)
+driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
+time.sleep(2)
+driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+time.sleep(2)
+wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "cart_item")))
+time.sleep(2)
+driver.find_element(By.ID, "checkout").click()
+wait.until(EC.visibility_of_element_located((By.ID, "first-name"))).send_keys("TAMIZH")
+time.sleep(2)
+driver.find_element(By.ID, "last-name").send_keys("B")
+driver.find_element(By.ID, "postal-code").send_keys("600001")
+driver.find_element(By.ID, "continue").click()
+finish_button = wait.until(EC.element_to_be_clickable((By.ID, "finish")))
+time.sleep(2)
+print("\nTC09 - Place Order button is clickable")
+finish_button.click()
+confirmation = wait.until(
+EC.visibility_of_element_located((By.CLASS_NAME, "complete-header")))
+print("TC09 - Order submitted successfully")
+print("Result:", confirmation.text)
+
+driver.get("https://www.saucedemo.com/")
+time.sleep(2)
+wait.until(EC.visibility_of_element_located((By.ID, "user-name"))).send_keys("standard_user")
+driver.find_element(By.ID, "password").send_keys("secret_sauce")
+driver.find_element(By.ID, "login-button").click()
+wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "inventory_list")))
+time.sleep(2)
+driver.find_element(By.ID, "add-to-cart-sauce-labs-backpack").click()
+driver.find_element(By.CLASS_NAME, "shopping_cart_link").click()
+wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "cart_item")))
+driver.find_element(By.ID, "checkout").click()
+time.sleep(2)
+wait.until(EC.visibility_of_element_located((By.ID, "first-name"))).send_keys("TAMIZH")
+driver.find_element(By.ID, "last-name").send_keys("B")
+driver.find_element(By.ID, "postal-code").send_keys("600001")
+driver.find_element(By.ID, "continue").click()
+finish_button = wait.until(EC.element_to_be_clickable((By.ID, "finish")))
+finish_button.click()
+wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "complete-header")))
+time.sleep(2)
+driver.execute_script("setTimeout(function(){alert('Order confirmation successful')}, 500)")
+alert = wait.until(EC.alert_is_present())
+print("\nTC10 - Order Confirmation Alert:")
+print(alert.text)
+alert.accept()
+print("TC10 - Confirmation alert handled successfully")
+time.sleep(2)
+driver.quit()
+print("\nAll test cases completed successfully")
+
+```
+# OUTPUT :
+
+<img width="1917" height="1025" alt="image" src="https://github.com/user-attachments/assets/755cd047-6864-4190-84a2-c9503a37c036" />
+
+
