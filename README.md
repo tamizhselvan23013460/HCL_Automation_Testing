@@ -72,7 +72,7 @@ time.sleep(20)
 
 ### 2. How can I automate Amazon login, search for men’s shoes, add a product to the cart, proceed to checkout, and select a payment method using Selenium with Python?
 
-```
+```py
 
 
 from selenium import webdriver
